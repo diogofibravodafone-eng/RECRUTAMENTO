@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Supreme — Recrutamento Comercial Vodafone &amp; Repsol | Coimbra</title>
+<meta name="description" content="Junta-te à equipa comercial mais reconhecida do país. Vodafone e Repsol, comissões acima da média e formação paga. Part-time, full-time ou freelancer.">
+
+<!--
+  ============================================================
+  NOTAS PARA QUEM FOR PUBLICAR ESTA PÁGINA (ler antes de subir)
+  ============================================================
+  1. FORMULÁRIO (Supabase): o formulário grava diretamente numa tabela
+     Supabase e envia o CV para um bucket de Storage. Antes de publicar:
+       a) Corre o SQL de setup (candidaturas.sql, à parte) no SQL Editor
+          do teu projeto Supabase.
+       b) Substitui SUPABASE_URL e SUPABASE_ANON_KEY no <script> no fundo
+          desta página pelos valores do teu projeto (Project Settings →
+          API). O anon key é seguro de expor no browser — o acesso é
+          limitado pelas políticas RLS definidas no SQL.
+     Sem este passo, o formulário mostra um aviso em vez de submeter.
+
+  2. VÍDEO: o ficheiro video.mp4 tem ~27MB. Para anúncios de Facebook,
+     o ideal é comprimir para 5-8MB (ex: HandBrake, preset "Fast 1080p30"
+     ou menor, já que o vídeo é vertical) antes de publicar, para carregar
+     rápido em dados móveis.
+
+  3. CONTACTOS: não incluí telefone/email/WhatsApp no rodapé porque não
+     foram fornecidos — adiciona-os antes de publicar.
+  ============================================================
+-->
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@600;800;900&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap');
+
+  :root{
+    --bg: #131210;
+    --bg-alt: #1a1815;
+    --panel: #201d19;
+    --panel-line: rgba(246,242,233,0.10);
+    --red: #E2213F;
+    --red-dark: #38050f;
+    --red-dark2: #2a0409;
+    --gold: #EFB44C;
+    --text: #F6F2E9;
+    --text-muted: #A7A398;
+    --radius: 4px;
+    --max: 1120px;
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior: auto; }
+    *{ animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+
+  body{
+    margin:0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,h2,h3{
+    font-family: 'Archivo', sans-serif;
+    font-weight: 900;
+    line-height: 1.05;
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+
+  a{ color: inherit; }
+  img,video{ max-width:100%; display:block; }
+
+  .wrap{ max-width: var(--max); margin: 0 auto; padding: 0 24px; }
+
+  :focus-visible{
+    outline: 2px solid var(--gold);
+    outline-offset: 3px;
+  }
+
+  /* ---------- NAV ---------- */
+  header.nav{
+    position: sticky; top:0; z-index: 50;
+    background: rgba(19,18,16,0.88);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--panel-line);
+  }
+  .nav-inner{
+    display:flex; align-items:center; justify-content:space-between;
+    padding: 14px 24px;
+    max-width: var(--max); margin:0 auto;
+  }
+  .logo{
+    font-family:'Archivo', sans-serif;
+    font-weight:900;
+    font-size: 22px;
+    letter-spacing: 0.02em;
+    color:#fff;
+    text-shadow: 0 0 6px rgba(226,33,63,0.7), 0 0 22px rgba(226,33,63,0.35);
+  }
+  .logo span{ color: var(--red); }
+  .nav-sub{
+    font-size:12px; color:var(--text-muted); margin-top:2px; display:block;
+  }
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'IBM Plex Sans', sans-serif;
+    font-weight:600; font-size:15px;
+    padding: 12px 22px;
+    border-radius: var(--radius);
+    border: none; cursor:pointer;
+    text-decoration:none;
+    transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+  }
+  .btn-primary{
+    background: var(--red); color:#fff;
+    box-shadow: 0 4px 18px rgba(226,33,63,0.35);
+  }
+  .btn-primary:hover{ background:#c81a37; transform: translateY(-1px); }
+  .btn-small{ padding:9px 16px; font-size:13.5px; }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding: 64px 0 56px;
+    position:relative;
+    overflow:hidden;
+    border-bottom: 1px solid var(--panel-line);
+  }
+  .hero::before{
+    content:"";
+    position:absolute; inset:0;
+    background:
+      radial-gradient(ellipse 700px 420px at 78% 8%, rgba(226,33,63,0.18), transparent 65%);
+    pointer-events:none;
+  }
+  .hero-grid{
+    display:grid; grid-template-columns: 1fr; gap: 44px;
+    align-items:center; position:relative;
+  }
+  .hero-eyebrow{
+    color: var(--gold); font-weight:600; font-size:14.5px; margin-bottom:14px;
+  }
+  .hero h1{
+    font-size: clamp(32px, 6vw, 52px);
+    color:#fff;
+    opacity:0; transform: translateY(14px);
+    animation: rise .7s ease forwards;
+  }
+  .hero p.lead{
+    font-size: 18px; color: var(--text-muted); margin-top:20px; max-width:52ch;
+    opacity:0; transform: translateY(14px);
+    animation: rise .7s .12s ease forwards;
+  }
+  .hero-cta{
+    margin-top: 30px; display:flex; align-items:center; gap:22px; flex-wrap:wrap;
+    opacity:0; transform: translateY(14px);
+    animation: rise .7s .22s ease forwards;
+  }
+  .hero-cta a.ghost{
+    font-size:14.5px; font-weight:600; color:var(--text-muted);
+    text-decoration:none; border-bottom:1px solid var(--panel-line);
+    padding-bottom:2px;
+  }
+  .hero-cta a.ghost:hover{ color:var(--text); border-color: var(--text-muted); }
+  .hero-office{
+    margin-top: 26px; font-size:13.5px; color: var(--text-muted);
+    display:flex; gap:10px; align-items:center;
+    opacity:0; animation: rise .7s .3s ease forwards;
+  }
+  .hero-office b{ color: var(--text); font-weight:600; }
+
+  @keyframes rise{ to{ opacity:1; transform:none; } }
+
+  .video-frame{
+    position:relative;
+    justify-self:center;
+    width: min(300px, 78vw);
+    transform: rotate(-2deg);
+  }
+  .video-frame::before{
+    content:"";
+    position:absolute; inset:-14px;
+    border: 1px solid rgba(239,180,76,0.35);
+    border-radius: 20px;
+    pointer-events:none;
+  }
+  .video-card{
+    position:relative;
+    border-radius:16px;
+    overflow:hidden;
+    border: 6px solid #0d0c0b;
+    background:#000;
+    box-shadow: 0 30px 60px -20px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.04);
+  }
+  .video-card video{ width:100%; aspect-ratio: 9/16; object-fit:cover; display:block; background:#000;}
+  .play-btn{
+    position:absolute; inset:0;
+    display:flex; align-items:center; justify-content:center;
+    background: linear-gradient(180deg, rgba(0,0,0,0.05), rgba(0,0,0,0.45));
+    border:none; cursor:pointer; padding:0;
+  }
+  .play-btn .circle{
+    width:64px; height:64px; border-radius:50%;
+    background: rgba(255,255,255,0.14);
+    border: 1.5px solid rgba(255,255,255,0.55);
+    backdrop-filter: blur(4px);
+    display:flex; align-items:center; justify-content:center;
+    transition: transform .15s ease, background .15s ease;
+  }
+  .play-btn:hover .circle{ transform: scale(1.06); background: rgba(255,255,255,0.22); }
+  .play-btn.hidden{ display:none; }
+  .video-caption{
+    text-align:center; font-size:12.5px; color: var(--text-muted); margin-top:14px;
+  }
+
+  @media(min-width: 900px){
+    .hero-grid{ grid-template-columns: 1.15fr 0.85fr; gap: 60px; }
+    .video-frame{ justify-self:end; width: min(320px, 100%); }
+  }
+
+  /* ---------- LEADERBOARD STRIP ---------- */
+  .proof{
+    background: linear-gradient(180deg, var(--red-dark2), var(--red-dark));
+    border-bottom: 1px solid var(--panel-line);
+    padding: 40px 0;
+  }
+  .proof-intro{
+    font-size:14px; color: rgba(246,242,233,0.65); margin-bottom:24px;
+  }
+  .proof-grid{
+    display:grid; grid-template-columns: 1fr; gap:0;
+  }
+  .proof-item{
+    padding: 18px 0;
+    border-top: 1px solid rgba(246,242,233,0.12);
+  }
+  .proof-item:last-child{ padding-bottom:0; }
+  .proof-item b{
+    display:block;
+    font-family:'Archivo', sans-serif;
+    font-weight:800;
+    font-size: 21px;
+    color: var(--gold);
+    margin-bottom:4px;
+  }
+  .proof-item span{ font-size:13.5px; color: rgba(246,242,233,0.6); }
+
+  @media(min-width:760px){
+    .proof-grid{ grid-template-columns: repeat(4,1fr); }
+    .proof-item{ border-top:none; border-left:1px solid rgba(246,242,233,0.14); padding: 0 24px; }
+    .proof-item:first-child{ border-left:none; padding-left:0; }
+  }
+
+  /* ---------- SECTIONS GENERIC ---------- */
+  section{ padding: 68px 0; }
+  section h2{
+    font-size: clamp(26px, 4vw, 34px);
+    color:#fff;
+  }
+  .section-lead{
+    color: var(--text-muted); font-size:16px; margin-top:12px; max-width:60ch;
+  }
+
+  /* ---------- MODALIDADES ---------- */
+  .modes{
+    margin-top:40px;
+    display:grid; grid-template-columns:1fr; gap:20px;
+  }
+  @media(min-width:800px){ .modes{ grid-template-columns: repeat(3,1fr);} }
+
+  .mode-card{
+    background: var(--panel);
+    border: 1px solid var(--panel-line);
+    border-top: 3px solid var(--red);
+    border-radius: var(--radius);
+    padding: 26px 24px 28px;
+    transition: transform .15s ease, border-color .15s ease;
+  }
+  .mode-card:hover{ transform: translateY(-3px); }
+  .mode-card.freelancer{ border-top-color: var(--gold); }
+  .mode-tag{
+    display:inline-block;
+    font-size:12.5px; font-weight:600;
+    color: var(--red);
+    background: rgba(226,33,63,0.12);
+    padding:4px 10px; border-radius:20px;
+    margin-bottom:16px;
+  }
+  .mode-card.freelancer .mode-tag{ color: var(--gold); background: rgba(239,180,76,0.14); }
+  .mode-card h3{
+    font-family:'Archivo', sans-serif; font-weight:800; font-size:21px; color:#fff;
+    margin-bottom:10px;
+  }
+  .mode-card p{ color: var(--text-muted); font-size:15px; margin:0; }
+
+  /* ---------- OFERTA / PERFIL ---------- */
+  .cols{
+    margin-top: 40px;
+    display:grid; grid-template-columns:1fr; gap:36px;
+  }
+  @media(min-width:800px){ .cols{ grid-template-columns: 1fr 1fr; } }
+  .col h3{
+    font-family:'Archivo', sans-serif; font-weight:800; font-size:19px; color:#fff; margin-bottom:18px;
+  }
+  .col ul{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:14px; }
+  .col li{
+    display:flex; gap:12px; align-items:flex-start;
+    color: var(--text-muted); font-size:15px;
+  }
+  .col li svg{ flex:none; margin-top:3px; }
+  .col.oferta li svg{ color: var(--gold); }
+  .col.perfil li svg{ color: var(--red); }
+
+  .punchline{
+    margin-top:44px;
+    border-top:1px solid var(--panel-line);
+    padding-top: 28px;
+    font-family:'Archivo', sans-serif;
+    font-weight:800;
+    font-size: clamp(19px,2.6vw,24px);
+    color:#fff;
+    max-width: 46ch;
+  }
+
+  /* ---------- FORM ---------- */
+  .apply{
+    background: var(--bg-alt);
+    border-top:1px solid var(--panel-line);
+    border-bottom:1px solid var(--panel-line);
+  }
+  .form-card{
+    margin-top:36px;
+    background: var(--panel);
+    border:1px solid var(--panel-line);
+    border-radius: 10px;
+    padding: 32px;
+    max-width: 640px;
+    position:relative;
+  }
+  .form-card::before{
+    content:"";
+    position:absolute; top:-1px; left:24px; right:24px; height:3px;
+    background: linear-gradient(90deg, var(--red), var(--gold));
+    border-radius: 0 0 3px 3px;
+  }
+  .field{ margin-bottom:20px; }
+  .field label{
+    display:block; font-size:14px; font-weight:600; color:#fff; margin-bottom:8px;
+  }
+  .field .hint{ font-weight:400; color:var(--text-muted); }
+  .field input[type=text],
+  .field input[type=number],
+  .field select,
+  .field textarea{
+    width:100%;
+    background: #161513;
+    border: 1px solid var(--panel-line);
+    color: var(--text);
+    font-family:'IBM Plex Sans', sans-serif;
+    font-size:15px;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+  }
+  .field input:focus, .field select:focus, .field textarea:focus{
+    border-color: var(--red);
+  }
+  .field textarea{ min-height:90px; resize:vertical; }
+  .radio-row{ display:flex; gap:22px; margin-top:6px; }
+  .radio-opt{ display:flex; align-items:center; gap:8px; font-size:15px; color:var(--text); cursor:pointer; }
+  .radio-opt input{ accent-color: var(--red); width:17px; height:17px; }
+  fieldset{ border:none; padding:0; margin:0 0 20px; }
+  fieldset legend{ font-size:14px; font-weight:600; color:#fff; margin-bottom:8px; padding:0; }
+
+  .file-drop{
+    border: 1.5px dashed var(--panel-line);
+    border-radius: var(--radius);
+    padding: 18px;
+    text-align:center;
+    font-size:14px; color: var(--text-muted);
+    cursor:pointer;
+    background:#161513;
+  }
+  .file-drop:hover{ border-color: var(--red); }
+  .file-drop input{ display:none; }
+  .file-name{ margin-top:8px; font-size:13px; color: var(--gold); }
+
+  #condTextarea{ display:none; }
+
+  .submit-row{ margin-top:28px; }
+  .status-msg{
+    margin-top:14px; font-size:14px; padding:12px 14px; border-radius: var(--radius);
+    display:none;
+  }
+  .status-msg.show{ display:block; }
+  .status-msg.ok{ background: rgba(90,180,110,0.12); color:#9fe0ae; border:1px solid rgba(90,180,110,0.3); }
+  .status-msg.err{ background: rgba(226,33,63,0.12); color:#ff9caa; border:1px solid rgba(226,33,63,0.3); }
+  .status-msg.warn{ background: rgba(239,180,76,0.12); color: var(--gold); border:1px solid rgba(239,180,76,0.3); }
+
+  /* ---------- FOOTER ---------- */
+  footer{ padding: 40px 0; }
+  .foot-inner{
+    display:flex; flex-direction:column; gap:6px;
+  }
+  .foot-logo{ font-family:'Archivo', sans-serif; font-weight:900; font-size:18px; color:#fff; }
+  footer p{ font-size:13.5px; color: var(--text-muted); margin:0; }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <div>
+      <div class="logo">SUPREME<span>.</span></div>
+      <span class="nav-sub">Vale das Flores · Coimbra</span>
+    </div>
+    <a href="#candidatura" class="btn btn-primary btn-small">Candidatar-me</a>
+  </div>
+</header>
+
+<main>
+
+  <!-- HERO -->
+  <section class="hero" id="inicio">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="hero-eyebrow">Recrutamento comercial · Vodafone e Repsol</div>
+        <h1>A Supreme está a formar a próxima geração de comerciais — e quer os melhores do país.</h1>
+        <p class="lead">Carteira própria de clientes, comissões acima da média do mercado e uma equipa já reconhecida nacionalmente. Formação paga desde o primeiro dia, sem guiões e sem porta a porta.</p>
+        <div class="hero-cta">
+          <a href="#candidatura" class="btn btn-primary">Candidatar-me agora</a>
+          <a href="#modalidades" class="ghost">Ver as 3 modalidades ↓</a>
+        </div>
+        <div class="hero-office">
+          <b>Escritório comercial em Vale das Flores, Coimbra</b> · parceria oficial Vodafone · Repsol
+        </div>
+      </div>
+
+      <div class="video-frame">
+        <div class="video-card">
+          <video id="teamVideo" playsinline preload="none" poster="poster.jpg" controls>
+            <source src="video.mp4" type="video/mp4">
+          </video>
+          <button class="play-btn" id="playBtn" aria-label="Reproduzir vídeo da equipa Supreme">
+            <span class="circle">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>
+            </span>
+          </button>
+        </div>
+        <p class="video-caption">Conhece o escritório da Supreme</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROVA -->
+  <section class="proof">
+    <div class="wrap">
+      <p class="proof-intro">O reconhecimento fala por nós:</p>
+      <div class="proof-grid">
+        <div class="proof-item">
+          <b>Melhor comercial do país</b>
+          <span>Título conquistado pela nossa equipa</span>
+        </div>
+        <div class="proof-item">
+          <b>Melhor team leader do país</b>
+          <span>Liderança reconhecida nacionalmente</span>
+        </div>
+        <div class="proof-item">
+          <b>Produtividade acima da média nacional</b>
+          <span>Vendas por comercial, mês após mês</span>
+        </div>
+        <div class="proof-item">
+          <b>Comissões entre as mais altas do setor</b>
+          <span>Quanto mais vendes, mais ganhas — sem teto</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODALIDADES -->
+  <section id="modalidades">
+    <div class="wrap">
+      <h2>Escolhe o teu ritmo</h2>
+      <p class="section-lead">Três formas de entrar na equipa. Candidata-te à que faz sentido para ti agora.</p>
+
+      <div class="modes">
+        <div class="mode-card">
+          <span class="mode-tag">35h / semana</span>
+          <h3>Part-time</h3>
+          <p>Depois do primeiro mês de formação, organizas o teu próprio horário — sempre a cumprir as 7h diárias. Ideal para quem quer flexibilidade sem abdicar de resultados.</p>
+        </div>
+        <div class="mode-card">
+          <span class="mode-tag">Tempo inteiro</span>
+          <h3>Full-time</h3>
+          <p>Contrato de trabalho, carteira de clientes própria e o caminho mais rápido para progredires dentro da equipa Supreme.</p>
+        </div>
+        <div class="mode-card freelancer">
+          <span class="mode-tag">Só com experiência</span>
+          <h3>Freelancer</h3>
+          <p>Para quem já trabalhou em telecomunicações ou energia. Liberdade total de horário e comissões sem limite máximo.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OFERTA / PERFIL -->
+  <section id="oferta">
+    <div class="wrap">
+      <h2>O que vais encontrar</h2>
+
+      <div class="cols">
+        <div class="col oferta">
+          <h3>Oferecemos</h3>
+          <ul>
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6 9 17l-5-5"/></svg> Bolsa de formação paga + comissões desde o 1º mês</li>
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6 9 17l-5-5"/></svg> Contrato de trabalho a partir do 2º mês</li>
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6 9 17l-5-5"/></svg> Horário flexível de 35h/semana após a formação</li>
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6 9 17l-5-5"/></svg> Tecnologia comercial e formação contínua</li>
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6 9 17l-5-5"/></svg> Contactos qualificados — sem porta a porta, sem guiões</li>
+          </ul>
+        </div>
+        <div class="col perfil">
+          <h3>Perfil que procuramos</h3>
+          <ul>
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6 9 17l-5-5"/></svg> Energia, foco e resiliência</li>
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6 9 17l-5-5"/></svg> Gosto por equipa, vontade de seres o número 1</li>
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6 9 17l-5-5"/></svg> Facilidade em criar relação e confiança</li>
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6 9 17l-5-5"/></svg> Noções básicas de Excel, Word e email</li>
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6 9 17l-5-5"/></svg> Disponibilidade para trabalho presencial em Coimbra</li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="punchline">Não é para quem quer só passar o tempo até ao fim do mês. É para quem quer ser o melhor da equipa.</p>
+    </div>
+  </section>
+
+  <!-- CANDIDATURA -->
+  <section class="apply" id="candidatura">
+    <div class="wrap">
+      <h2>Candidata-te em dois minutos</h2>
+      <p class="section-lead">Preenche os dados abaixo. A nossa equipa entra em contacto contigo em breve.</p>
+
+      <form class="form-card" id="applyForm" novalidate>
+
+        <div class="field">
+          <label for="nome">Nome completo</label>
+          <input type="text" id="nome" name="nome" required autocomplete="name">
+        </div>
+
+        <div class="field">
+          <label for="idade">Idade</label>
+          <input type="number" id="idade" name="idade" min="16" max="99" required inputmode="numeric">
+        </div>
+
+        <div class="field">
+          <label for="modalidade">Modalidade pretendida</label>
+          <select id="modalidade" name="modalidade" required>
+            <option value="" disabled selected>Escolhe uma opção</option>
+            <option value="part-time">Part-time</option>
+            <option value="full-time">Full-time</option>
+            <option value="freelancer">Freelancer (com experiência em telecom/energia)</option>
+          </select>
+        </div>
+
+        <fieldset>
+          <legend>Tens experiência em telecomunicações ou energia, em Portugal?</legend>
+          <div class="radio-row">
+            <label class="radio-opt"><input type="radio" name="experiencia" value="sim" required> Sim</label>
+            <label class="radio-opt"><input type="radio" name="experiencia" value="nao" required> Não</label>
+          </div>
+        </fieldset>
+
+        <div class="field" id="condTextarea">
+          <label for="detalhes">Onde trabalhaste e que funções desempenhaste?</label>
+          <textarea id="detalhes" name="detalhes" placeholder="Empresa, período e principais funções"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="anexo">Anexa o teu CV <span class="hint">(PDF ou Word)</span></label>
+          <label class="file-drop" for="anexo">
+            <span id="fileLabel">Toca para escolher o ficheiro</span>
+            <input type="file" id="anexo" name="anexo" accept=".pdf,.doc,.docx">
+          </label>
+          <div class="file-name" id="fileName"></div>
+        </div>
+
+        <div class="submit-row">
+          <button type="submit" class="btn btn-primary" id="submitBtn" style="width:100%; justify-content:center;">Enviar candidatura</button>
+        </div>
+
+        <div class="status-msg" id="statusMsg" role="status" aria-live="polite"></div>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap foot-inner">
+    <div class="foot-logo">SUPREME</div>
+    <p>Escritório comercial · Vale das Flores, Coimbra</p>
+    <p>Parceiro oficial Vodafone · Repsol</p>
+    <p>© 2026 Supreme. Todos os direitos reservados.</p>
+  </div>
+</footer>
+
+<script>
+  // ---- Vídeo: reproduzir ao tocar (poupa dados até o utilizador querer ver) ----
+  const video = document.getElementById('teamVideo');
+  const playBtn = document.getElementById('playBtn');
+  playBtn.addEventListener('click', () => {
+    video.play();
+    playBtn.classList.add('hidden');
+  });
+  video.addEventListener('play', () => playBtn.classList.add('hidden'));
+  video.addEventListener('pause', () => playBtn.classList.remove('hidden'));
+
+  // ---- Pré-selecionar modalidade a partir do link do anúncio ----
+  // Ex: pagina.html?modalidade=full-time
+  const params = new URLSearchParams(window.location.search);
+  const modalidadeParam = params.get('modalidade');
+  if (modalidadeParam) {
+    const select = document.getElementById('modalidade');
+    const match = [...select.options].find(o => o.value === modalidadeParam);
+    if (match) select.value = modalidadeParam;
+  }
+
+  // ---- Mostrar/ocultar campo de detalhes de experiência ----
+  const condTextarea = document.getElementById('condTextarea');
+  const detalhes = document.getElementById('detalhes');
+  document.querySelectorAll('input[name="experiencia"]').forEach(radio => {
+    radio.addEventListener('change', (e) => {
+      if (e.target.value === 'sim') {
+        condTextarea.style.display = 'block';
+        detalhes.required = true;
+      } else {
+        condTextarea.style.display = 'none';
+        detalhes.required = false;
+      }
+    });
+  });
+
+  // ---- Nome do ficheiro anexado ----
+  const anexo = document.getElementById('anexo');
+  const fileLabel = document.getElementById('fileLabel');
+  const fileName = document.getElementById('fileName');
+  anexo.addEventListener('change', () => {
+    if (anexo.files.length) {
+      fileLabel.textContent = 'Ficheiro selecionado';
+      fileName.textContent = anexo.files[0].name;
+    } else {
+      fileLabel.textContent = 'Toca para escolher o ficheiro';
+      fileName.textContent = '';
+    }
+  });
+
+  // ---- Submissão do formulário (Supabase) ----
+  // IMPORTANTE: substitui os dois valores abaixo pelos do teu projeto
+  // (Project Settings → API). Ver candidaturas.sql para criar a tabela
+  // e o bucket de Storage antes de testares.
+  const SUPABASE_URL = "REPLACE_ME_SUPABASE_URL";
+  const SUPABASE_ANON_KEY = "REPLACE_ME_SUPABASE_ANON_KEY";
+
+  const form = document.getElementById('applyForm');
+  const statusMsg = document.getElementById('statusMsg');
+  const submitBtn = document.getElementById('submitBtn');
+
+  function showStatus(type, text) {
+    statusMsg.className = 'status-msg show ' + type;
+    statusMsg.textContent = text;
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+
+    if (SUPABASE_URL.includes('REPLACE_ME') || SUPABASE_ANON_KEY.includes('REPLACE_ME')) {
+      showStatus('warn', 'Formulário pronto, mas ainda sem ligação à base de dados. Configura o Supabase antes de publicares esta página (ver instruções no início do código-fonte e o ficheiro candidaturas.sql).');
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'A enviar…';
+
+    try {
+      const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');
+      const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+      const nome = form.nome.value.trim();
+      const idade = Number(form.idade.value);
+      const modalidade = form.modalidade.value;
+      const experiencia = form.experiencia.value; // 'sim' | 'nao'
+      const detalhes = form.detalhes.value.trim();
+      const file = anexo.files[0] || null;
+
+      let cvPath = null;
+      let cvFilename = null;
+
+      if (file) {
+        const safeName = file.name.replace(/[^a-zA-Z0-9.\-_]/g, '_');
+        const path = `${Date.now()}_${safeName}`;
+        const { error: uploadError } = await supabase.storage
+          .from('cvs')
+          .upload(path, file);
+        if (uploadError) throw uploadError;
+        cvPath = path;
+        cvFilename = file.name;
+      }
+
+      const { error: insertError } = await supabase.from('candidaturas').insert({
+        nome,
+        idade,
+        modalidade,
+        experiencia: experiencia === 'sim',
+        detalhes: experiencia === 'sim' ? detalhes : null,
+        cv_path: cvPath,
+        cv_filename: cvFilename
+      });
+      if (insertError) throw insertError;
+
+      showStatus('ok', 'Candidatura enviada com sucesso! Entraremos em contacto em breve.');
+      form.reset();
+      condTextarea.style.display = 'none';
+      fileLabel.textContent = 'Toca para escolher o ficheiro';
+      fileName.textContent = '';
+    } catch (err) {
+      console.error(err);
+      showStatus('err', 'Não foi possível enviar a candidatura. Tenta novamente.');
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Enviar candidatura';
+    }
+  });
+</script>
+
+</body>
+</html>
