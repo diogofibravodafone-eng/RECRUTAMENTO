@@ -27,7 +27,7 @@
      no SQL Editor do Supabase (uma vez) para a tabela aceitar este
      campo nas candidaturas novas.
 
-  3. VÍDEO: video.mp4 já está comprimido (~8.8B), pronto a publicar.
+  3. VÍDEO: video.mp4 já está comprimido (~13MB), pronto a publicar.
 
   4. CONTACTOS: não incluí telefone/WhatsApp no rodapé porque não
      foram fornecidos — adiciona-os quando tiveres um número.
@@ -314,12 +314,12 @@
     opacity: 0; transform: translateY(12px);
     animation: hero-rise .6s .32s ease forwards;
   }
-  .start-date-note{
-    margin: 10px 0 0; font-size: 13px; font-weight:600; color: var(--red-dark);
-    opacity: 0; transform: translateY(12px);
-    animation: hero-rise .6s .38s ease forwards;
+  .top-banner{
+    background: var(--ink); color: #fff;
+    text-align: center; font-size: 13px; font-weight:600;
+    padding: 9px 16px;
   }
-  .start-date-note strong{ color: var(--red); }
+  .top-banner strong{ color: var(--gold); }
   @keyframes hero-rise{ to{ opacity:1; transform:none; } }
 
   .brands-row{
@@ -557,6 +557,8 @@
 </head>
 <body>
 
+<div class="top-banner">🗓️ Próxima formação começa a <strong>1 de outubro</strong> — candidata-te até lá</div>
+
 <header class="nav">
   <div class="nav-inner">
     <div class="logo-block">
@@ -604,7 +606,6 @@
         </ul>
 
         <a href="#candidatura" class="btn btn-primary hero-cta-btn">Candidatar-me agora →</a>
-        <p class="start-date-note">🗓️ Próxima formação começa a <strong>1 de outubro</strong> — candidata-te até lá</p>
 
         <div id="modalidades" class="hero-modes">
           <h2>Ofertas disponíveis</h2>
